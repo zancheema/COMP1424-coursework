@@ -79,7 +79,7 @@
         android:layout_marginTop="16dp"
         android:ems="10"
         android:inputType="number"
-        app:layout_constraintStart_toStartOf="@+id/tvPrice"
+        app:layout_constraintStart_toStartOf="@+id/etPrice"
         app:layout_constraintTop_toBottomOf="@+id/etPeopleCapacity" />
 
     <TextView
@@ -88,11 +88,11 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Price Per Class (£):"
-        app:layout_constraintBaseline_toBaselineOf="@+id/tvPrice"
+        app:layout_constraintBaseline_toBaselineOf="@+id/etPrice"
         app:layout_constraintStart_toStartOf="@+id/textView5" />
 
     <EditText
-        android:id="@+id/tvPrice"
+        android:id="@+id/etPrice"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="8dp"
@@ -116,8 +116,8 @@
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginTop="16dp"
-        app:layout_constraintStart_toStartOf="@+id/tvPrice"
-        app:layout_constraintTop_toBottomOf="@+id/tvPrice" />
+        app:layout_constraintStart_toStartOf="@+id/etPrice"
+        app:layout_constraintTop_toBottomOf="@+id/etPrice" />
 
     <TextView
         android:id="@+id/textView8"
@@ -130,7 +130,7 @@
         app:layout_constraintTop_toBottomOf="@+id/textView7" />
 
     <EditText
-        android:id="@+id/tvDescription"
+        android:id="@+id/etDescription"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginTop="16dp"
@@ -150,6 +150,6 @@
         android:text="Save"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/tvDescription" />
+        app:layout_constraintTop_toBottomOf="@+id/etDescription" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

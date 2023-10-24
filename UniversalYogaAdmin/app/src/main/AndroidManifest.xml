@@ -13,6 +13,9 @@
         android:theme="@style/Theme.UniversalYogaAdmin"
         tools:targetApi="31">
         <activity
+            android:name=".CourseDetailsActivity"
+            android:exported="false" />
+        <activity
             android:name=".MainActivity"
             android:exported="true">
             <intent-filter>
@@ -23,9 +26,8 @@
         </activity>
         <activity
             android:name=".EnterCourseDetailsActivity"
-            android:label="Course Detail"
-            android:exported="false">
-        </activity>
+            android:exported="false"
+            android:label="Course Detail"></activity>
     </application>
 
 </manifest>
