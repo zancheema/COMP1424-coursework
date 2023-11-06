@@ -1,19 +1,22 @@
-import { Icon } from "@rneui/base";
-import { View } from "react-native";
+import { Button, Icon } from "@rneui/base";
+import { Text, View } from "react-native";
 
-function CartTab() {
+function CartTab({ cart }) {
     return <View 
         style={{
-            // height: 30, 
-            // height: '10%',
-            maxHeight: 70,
             backgroundColor: 'yellow', 
-            flex: 1, 
             flexDirection: 'row', 
-            justifyContent: 'flex-end',
-            padding: 10
+            justifyContent: 'space-between',
+            padding: 20,
         }}>
-        <Icon name="shopping-cart" />
+            <View
+                style={{flexDirection: 'row'}}
+            >
+                <Icon name="shopping-cart" />
+                <Text style={{color: 'black', marginEnd: 10, fontSize: 15, fontWeight: 600}}>{cart.length}</Text>
+            </View>
+
+            <Button title='Proceed' disabled={cart.length === 0} />
     </View>
 }
 
