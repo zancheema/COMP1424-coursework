@@ -1,7 +1,12 @@
 import { Button, Icon } from "@rneui/base";
 import { Text, View } from "react-native";
 
-function CartTab({ cart }) {
+function CartTab({ cart, navigation }) {
+    
+    function openCart() {
+        navigation.navigate('Cart', { cart });
+    }
+
     return <View 
         style={{
             backgroundColor: 'yellow', 
@@ -16,7 +21,7 @@ function CartTab({ cart }) {
                 <Text style={{color: 'black', marginEnd: 10, fontSize: 15, fontWeight: 600}}>{cart.length}</Text>
             </View>
 
-            <Button title='Proceed' disabled={cart.length === 0} />
+            <Button title='Proceed' disabled={cart.length === 0} onPress={openCart} />
     </View>
 }
 

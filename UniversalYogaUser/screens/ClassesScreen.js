@@ -7,7 +7,7 @@ import SelectTimeDropdown from "../components/ClassesScreen/SelectTimeDropdown";
 import CartTab from "../components/ClassesScreen/CartTab";
 import { useCart } from "../util/hooks";
 
-function ClassesScreen() {
+function ClassesScreen({ navigation }) {
     const [classes, setClasses] = useState(dummyClasses);
     const [selectedDay, setSelectedDay] = useState(null);
     const [selectedTime, setSelectedTime] = useState(null);
@@ -44,7 +44,7 @@ function ClassesScreen() {
                 addToCart={addToCart} 
                 removeFromCart={removeFromCart} 
             />
-            <CartTab cart={cart} />
+            <CartTab cart={cart} navigation={navigation} />
         </View>
     );
 }
