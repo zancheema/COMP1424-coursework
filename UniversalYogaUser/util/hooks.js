@@ -11,5 +11,9 @@ export function useCart() {
         setCart(state => state.filter(s => s !== classItem));
     }
 
-    return { cart, addToCart, removeFromCart };
+    function clearCart() {
+        setCart([]);
+    }
+
+    return { cart, addToCart, removeFromCart, clearCart };
 }

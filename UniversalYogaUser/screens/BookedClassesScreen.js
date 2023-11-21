@@ -1,7 +1,10 @@
 import { Icon, ListItem } from "@rneui/base";
+import { useContext } from "react";
 import { SectionList } from "react-native";
+import { ClassesContext } from "../util/redux";
 
 function BookedClassesScreen() {
+    const classes = useContext(ClassesContext);
     
     const classMap = classes.reduce((r, a) => {
         r[`${a.classDay} ${a.classTime}`] = r[`${a.classDay} ${a.classTime}`] || [];

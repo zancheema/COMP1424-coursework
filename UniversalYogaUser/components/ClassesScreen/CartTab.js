@@ -1,10 +1,10 @@
 import { Button, Icon } from "@rneui/base";
 import { Text, View } from "react-native";
 
-function CartTab({ cart, navigation }) {
+function CartTab({ cart, clearCart, navigation }) {
     
     function openCart() {
-        navigation.navigate('Cart', { cart });
+        navigation.navigate('Cart', { cart, clearCart });
     }
 
     return <View 

@@ -6,6 +6,7 @@ import { StackActions } from "@react-navigation/native";
 
 function CartScreen({ route, navigation }) {
     const cart = route.params.cart;
+    const clearCart = route.params.clearCart;
     const dispatch = useContext(DispatchContext);
 
 
@@ -17,6 +18,7 @@ function CartScreen({ route, navigation }) {
                 instanceId: c.instanceId
             });
         }
+        clearCart();
 
         const popAction = StackActions.pop(1);
         navigation.dispatch(popAction);

@@ -16,7 +16,7 @@ function ClassesScreen({ navigation }) {
     const [selectedDay, setSelectedDay] = useState(null);
     const [selectedTime, setSelectedTime] = useState(null);
 
-    const { cart, addToCart, removeFromCart } = useCart();
+    const { cart, addToCart, removeFromCart, clearCart } = useCart();
 
     function getClasses() {
         // setClasses(dummyClasses);
@@ -49,7 +49,7 @@ function ClassesScreen({ navigation }) {
                 addToCart={addToCart} 
                 removeFromCart={removeFromCart} 
             />
-            <CartTab cart={cart} navigation={navigation} />
+            <CartTab cart={cart} clearCart={clearCart} navigation={navigation} />
         </View>
     );
 }
