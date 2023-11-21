@@ -11,7 +11,7 @@ import { ClassesContext } from "../util/redux";
 
 function ClassesScreen({ navigation }) {
     // const [classes, setClasses] = useState(dummyClasses);
-    const classes = useContext(ClassesContext);
+    const classes = useContext(ClassesContext).filter(c => !c.booked);
 
     const [selectedDay, setSelectedDay] = useState(null);
     const [selectedTime, setSelectedTime] = useState(null);

@@ -1,23 +1,31 @@
 import { Icon, ListItem } from "@rneui/base";
 import { useContext } from "react";
-import { SectionList } from "react-native";
+import { SectionList, Text } from "react-native";
 import { ClassesContext } from "../util/redux";
+import { useEffect } from "react";
+import styles from "../common/styles";
 
 function BookedClassesScreen() {
     const classes = useContext(ClassesContext);
+
+    useEffect(() => {
+        console.log('BookedClassesScreen', 'classes: ' + JSON.stringify(classes));
+        console.log('BookedClassesScreen', 'classMap: ' + JSON.stringify(classMap));
+    }, [classMap]);
     
-    const classMap = classes.reduce((r, a) => {
-        r[`${a.classDay} ${a.classTime}`] = r[`${a.classDay} ${a.classTime}`] || [];
-        r[`${a.classDay} ${a.classTime}`].push(a);
-        return r;
-    }, Object.create(null));
+    const classMap = classes
+        .filter(c => c.booked)
+        .reduce((r, a) => {
+            r[`${a.classDay} ${a.classTime}`] = r[`${a.classDay} ${a.classTime}`] || [];
+            r[`${a.classDay} ${a.classTime}`].push(a);
+            return r;
+        }, Object.create(null));
 
     return (
         <SectionList
             sections={
                 Object.keys(classMap)
                     .map(key => ({ title: key, data: classMap[key] }))
-                    .filter(item => item.booked)
             }
             renderItem={({item}) => 
             <ListItem>
