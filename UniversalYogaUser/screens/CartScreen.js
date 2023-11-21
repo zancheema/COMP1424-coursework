@@ -1,8 +1,26 @@
 import { Button, Icon, ListItem } from "@rneui/base";
+import { useContext } from "react";
 import { FlatList, Text, View } from "react-native";
+import { DispatchContext } from "../util/redux";
+import { StackActions } from "@react-navigation/native";
 
-function CartScreen({ route }) {
+function CartScreen({ route, navigation }) {
     const cart = route.params.cart;
+    const dispatch = useContext(DispatchContext);
+
+
+    function bookAll() {
+        for (var c of cart) {
+            console.log('c: ' + JSON.stringify(c));
+            dispatch({
+                type: 'book',
+                instanceId: c.instanceId
+            });
+        }
+
+        const popAction = StackActions.pop(1);
+        navigation.dispatch(popAction);
+    }
 
     return (
         <View style={{flex: 1}}>
@@ -17,7 +35,7 @@ function CartScreen({ route }) {
                     </ListItem.Content>
                 </ListItem>
             )} />
-            <Button style={{marginHorizontal: 10, martinTop: 10, marginBottom: 20}}>Book All</Button>
+            <Button onPress={bookAll} style={{marginHorizontal: 10, martinTop: 10, marginBottom: 20}}>Book All</Button>
         </View>
     );
 }

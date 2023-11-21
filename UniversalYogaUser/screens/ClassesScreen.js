@@ -6,16 +6,21 @@ import SelectDayDropdown from "../components/ClassesScreen/SelectDayDropdown";
 import SelectTimeDropdown from "../components/ClassesScreen/SelectTimeDropdown";
 import CartTab from "../components/ClassesScreen/CartTab";
 import { useCart } from "../util/hooks";
+import { useContext } from "react";
+import { ClassesContext } from "../util/redux";
 
 function ClassesScreen({ navigation }) {
-    const [classes, setClasses] = useState(dummyClasses);
+    // const [classes, setClasses] = useState(dummyClasses);
+    const classes = useContext(ClassesContext);
+
     const [selectedDay, setSelectedDay] = useState(null);
     const [selectedTime, setSelectedTime] = useState(null);
 
     const { cart, addToCart, removeFromCart } = useCart();
 
     function getClasses() {
-        setClasses(dummyClasses);
+        // setClasses(dummyClasses);
+        console.log('classes: ' + JSON.stringify(classes));
     }
 
     useEffect(() => {

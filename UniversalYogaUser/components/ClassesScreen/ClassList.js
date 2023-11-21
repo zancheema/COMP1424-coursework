@@ -16,6 +16,7 @@ function ClassList({ classes, selectedDay, selectedTime, cart, addToCart, remove
             sections={
                 Object.keys(classMap)
                     .map(key => ({ title: key, data: classMap[key] }))
+                    .filter(item => !item.booked)
                     .filter(item => (!selectedDay || item.title.includes(selectedDay)) && (!selectedTime || item.title.includes(selectedTime)))
             }
             renderItem={({item}) => 
