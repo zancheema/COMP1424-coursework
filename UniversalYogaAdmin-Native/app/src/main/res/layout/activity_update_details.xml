@@ -1,0 +1,87 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+    <!-- res/layout/activity_update_details.xml -->
+
+
+        <!-- Day -->
+        <EditText
+            android:id="@+id/editTextDay"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="Enter day"
+            android:inputType="text"
+            android:layout_marginTop="16dp"/>
+
+        <!-- Time -->
+        <EditText
+            android:id="@+id/editTextTime"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="Enter time"
+            android:inputType="text"
+            android:layout_below="@+id/editTextDay"
+            android:layout_marginTop="16dp"/>
+
+        <!-- Capacity -->
+        <EditText
+            android:id="@+id/editCapacity"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="Enter capacity"
+            android:inputType="text"
+            android:layout_below="@+id/editTextTime"
+            android:layout_marginTop="16dp"/>
+
+        <!-- Duration -->
+        <EditText
+            android:id="@+id/editDuration"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="Enter duration"
+            android:inputType="text"
+            android:layout_below="@+id/editCapacity"
+            android:layout_marginTop="16dp"/>
+
+        <!-- Price -->
+        <EditText
+            android:id="@+id/editPrice"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="Enter price"
+            android:inputType="text"
+            android:layout_below="@+id/editDuration"
+            android:layout_marginTop="16dp"/>
+
+        <!-- Type -->
+        <EditText
+            android:id="@+id/editType"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="Enter type"
+            android:inputType="text"
+            android:layout_below="@+id/editPrice"
+            android:layout_marginTop="16dp"/>
+
+        <!-- Description -->
+        <EditText
+            android:id="@+id/editDescription"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="Enter description"
+            android:inputType="text"
+            android:layout_below="@+id/editType"
+            android:layout_marginTop="16dp"/>
+
+        <!-- Update Button -->
+        <Button
+            android:id="@+id/buttonUpdate"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Update"
+            android:layout_below="@+id/editDescription"
+            android:layout_marginTop="16dp"/>
+
+    </RelativeLayout>
+
