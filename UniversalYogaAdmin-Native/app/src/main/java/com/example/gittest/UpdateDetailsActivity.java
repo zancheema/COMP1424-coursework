@@ -1,7 +1,9 @@
 package com.example.gittest;
 
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
+import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
@@ -9,8 +11,12 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.lifecycle.ViewModelProvider;
 
 public class UpdateDetailsActivity extends AppCompatActivity {
+    private static final String TAG = "UpdateDetailsActivity";
+    public static final String ENTRY_ID = "entryId";
+
     private final DBHelper DB = new DBHelper(this);
     private EditText editDay, editTime, editCapacity, editDuration, editPrice, editType, editDescription;
+    private Button buttonUpdate;
     private EntryViewModel viewModel;
     private long entryId; // The ID of the entry to be updated
 
@@ -18,7 +24,9 @@ public class UpdateDetailsActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_update_details);
-        entryId = getIntent().getLongExtra("entryId", -1);
+//        entryId = getIntent().getLongExtra("entryId", -1);
+        entryId = getIntent().getLongExtra(ENTRY_ID, -1);
+        Log.d(TAG, "onCreate: entryId: " + entryId);
 
         viewModel = new ViewModelProvider(this).get(EntryViewModel.class);
 
@@ -30,9 +38,10 @@ public class UpdateDetailsActivity extends AppCompatActivity {
         editPrice = findViewById(R.id.editPrice);
         editType = findViewById(R.id.editType);
         editDescription = findViewById(R.id.editDescription);
+        buttonUpdate = findViewById(R.id.buttonUpdate);
 
         // Retrieve the entry ID from the intent
-        entryId = getIntent().getLongExtra("entryId", -1);
+
 
         // If entryId is -1, handle the error or finish the activity
         if (entryId == -1) {
@@ -45,6 +54,9 @@ public class UpdateDetailsActivity extends AppCompatActivity {
 
         // Populate the EditText fields with existing entry details
         populateFields(existingEntry);
+
+        // set onclick listener for update
+        buttonUpdate.setOnClickListener(this::onUpdateClick);
     }
 
     private YogaEntry retrieveEntryDetails(long entryId) {

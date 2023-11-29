@@ -24,7 +24,18 @@ public class PastEntries extends AppCompatActivity {
         // Initialize RecyclerView
         recyclerView = findViewById(R.id.recyclerView);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
+    }
 
+    @Override
+    protected void onStart() {
+        super.onStart();
+
+        // Call this in onStart so that entries will be updated once we navigate
+        // back after updating an entry
+        loadEntries();
+    }
+
+    private void loadEntries() {
         // Get the data from the database
         DB = new DBHelper(this);
         Cursor res = DB.getCourseData();
@@ -41,74 +52,6 @@ public class PastEntries extends AppCompatActivity {
         super.onDestroy();
         if (DB != null) {
             DB.close(); // Close the database helper when the activity is destroyed
-        }
-    }
-
-    private static class PastEntriesAdapter extends RecyclerView.Adapter<PastEntriesAdapter.ViewHolder> {
-        private final Cursor cursor;
-
-        public PastEntriesAdapter(PastEntries pastEntries, Cursor cursor) {
-            this.cursor = cursor;
-        }
-
-        @Override
-        public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-            View view = LayoutInflater.from(parent.getContext())
-                    .inflate(R.layout.item_past_entry, parent, false);
-            return new ViewHolder(view);
-        }
-
-        @Override
-        public void onBindViewHolder(ViewHolder holder, int position) {
-            if (cursor.moveToPosition(position)) {
-                // Customize this part based on your database structure
-                String day = cursor.getString(cursor.getColumnIndex("day"));
-                holder.textViewDay.setText("Day: " + day);
-
-                String time = cursor.getString(cursor.getColumnIndex("time"));
-                holder.textViewTime.setText("Time: " + time);
-
-                String capacity = cursor.getString(cursor.getColumnIndex("capacity"));
-                holder.textViewCapacity.setText("Capacity: " + capacity);
-
-                String duration = cursor.getString(cursor.getColumnIndex("duration"));
-                holder.textViewDuration.setText("Duration: " + duration);
-
-                String price = cursor.getString(cursor.getColumnIndex("price"));
-                holder.textViewPrice.setText("Price: " + price);
-
-                String type = cursor.getString(cursor.getColumnIndex("type"));
-                holder.textViewType.setText("Type: " + type);
-
-                String description = cursor.getString(cursor.getColumnIndex("description"));
-                holder.textViewDescription.setText("Description: " + description);
-            }
-        }
-
-        @Override
-        public int getItemCount() {
-            return cursor != null ? cursor.getCount() : 0;
-        }
-
-        public static class ViewHolder extends RecyclerView.ViewHolder {
-            public final TextView textViewDay;
-            public final TextView textViewTime;
-            public final TextView textViewCapacity;
-            public final TextView textViewDuration;
-            public final TextView textViewPrice;
-            public final TextView textViewType;
-            public final TextView textViewDescription;
-
-            public ViewHolder(View view) {
-                super(view);
-                textViewDay = view.findViewById(R.id.textViewDay);
-                textViewTime = view.findViewById(R.id.textViewTime);
-                textViewCapacity = view.findViewById(R.id.textViewCapacity);
-                textViewDuration = view.findViewById(R.id.textViewDuration);
-                textViewPrice = view.findViewById(R.id.textViewPrice);
-                textViewType = view.findViewById(R.id.textViewType);
-                textViewDescription = view.findViewById(R.id.textViewDescription);
-            }
         }
     }
 }

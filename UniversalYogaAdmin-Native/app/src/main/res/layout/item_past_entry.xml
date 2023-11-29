@@ -54,7 +54,7 @@
 
 
     <Button
-        android:id="@+id/EditDeitailsdbtn"
+        android:id="@+id/btnEditDetails"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Edit Details"/>

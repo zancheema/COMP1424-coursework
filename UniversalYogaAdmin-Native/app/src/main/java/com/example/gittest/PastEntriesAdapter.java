@@ -3,6 +3,7 @@ package com.example.gittest;
 import android.content.Context;
 import android.content.Intent;
 import android.database.Cursor;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -13,6 +14,8 @@ import android.widget.Toast;
 import androidx.recyclerview.widget.RecyclerView;
 
 public class PastEntriesAdapter extends RecyclerView.Adapter<PastEntriesAdapter.ViewHolder> {
+    private static final String TAG = "PastEntriesAdapter";
+
     private final Cursor cursor;
     private final Context context; // Add this to store the context
 
@@ -31,54 +34,35 @@ public class PastEntriesAdapter extends RecyclerView.Adapter<PastEntriesAdapter.
     @Override
     public void onBindViewHolder(ViewHolder holder, int position) {
         if (cursor.moveToPosition(position)) {
+            long entryId = cursor.getLong(0);
+
             // Customize this part based on your database structure
-            String day = cursor.getString(0); // Assuming day is stored in the first column
+            String day = cursor.getString(1); // Assuming day is stored in the first column
             holder.textViewDay.setText("Day: " + day);
 
-            String time = cursor.getString(1); // Assuming time is stored in the second column
+            String time = cursor.getString(2); // Assuming time is stored in the second column
             holder.textViewTime.setText("Time: " + time);
 
-            String capacity = cursor.getString(2); // Assuming capacity is stored in the third column
+            String capacity = cursor.getString(3); // Assuming capacity is stored in the third column
             holder.textViewCapacity.setText("Capacity: " + capacity);
 
-            String duration = cursor.getString(3); // Assuming duration is stored in the fourth column
+            String duration = cursor.getString(4); // Assuming duration is stored in the fourth column
             holder.textViewDuration.setText("Duration: " + duration);
 
-            String price = cursor.getString(4); // Assuming price is stored in the fifth column
+            String price = cursor.getString(5); // Assuming price is stored in the fifth column
             holder.textViewPrice.setText("Price: " + price);
 
-            String type = cursor.getString(5); // Assuming type is stored in the sixth column
+            String type = cursor.getString(6); // Assuming type is stored in the sixth column
             holder.textViewType.setText("Type: " + type);
 
-            String description = cursor.getString(6); // Assuming description is stored in the seventh column
+            String description = cursor.getString(7); // Assuming description is stored in the seventh column
             holder.textViewDescription.setText("Description: " + description);
 
             // Add the following lines to access btnUpdate from your layout
             holder.btnUpdate.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    // Get the data associated with the clicked item
-                    Toast.makeText(v.getContext(), "Update button clicked.", 2000L).show();
-                    String day = cursor.getString(0);
-                    String time = cursor.getString(1);
-                    String capacity = cursor.getString(2);
-                    String duration = cursor.getString(3);
-                    String price = cursor.getString(4);
-                    String type = cursor.getString(5);
-                    String description = cursor.getString(6);
-
-                    // Launch an activity or dialog to update details
-                    launchUpdateActivity(day, time, capacity, duration, price, type, description);
-                    Intent updateIntent = new Intent(context, UpdateDetailsActivity.class);
-                    updateIntent.putExtra("day", day);
-                    updateIntent.putExtra("time", time);
-                    updateIntent.putExtra("capacity", capacity);
-                    updateIntent.putExtra("duration", duration);
-                    updateIntent.putExtra("price", price);
-                    updateIntent.putExtra("type", type);
-                    updateIntent.putExtra("description", description);
-
-                    context.startActivity(updateIntent);
+                    launchUpdateActivity(entryId);
                 }
             });
         }
@@ -108,21 +92,15 @@ public class PastEntriesAdapter extends RecyclerView.Adapter<PastEntriesAdapter.
             textViewPrice = view.findViewById(R.id.textViewPrice);
             textViewType = view.findViewById(R.id.textViewType);
             textViewDescription = view.findViewById(R.id.textViewDescription);
-            btnUpdate = view.findViewById(R.id.EditDeitailsdbtn); // Replace R.id.btnUpdate with the actual ID of your button
+            btnUpdate = view.findViewById(R.id.btnEditDetails); // Replace R.id.btnUpdate with the actual ID of your button
         }
     }
 
-    private void launchUpdateActivity(String day, String time, String capacity, String duration,
-                                      String price, String type, String description) {
+    private void launchUpdateActivity(long entryId) {
         // You can create an Intent to launch an update activity and pass the details as extras
         Intent updateIntent = new Intent(context, UpdateDetailsActivity.class);
-        updateIntent.putExtra("day", day);
-        updateIntent.putExtra("time", time);
-        updateIntent.putExtra("capacity", capacity);
-        updateIntent.putExtra("duration", duration);
-        updateIntent.putExtra("price", price);
-        updateIntent.putExtra("type", type);
-        updateIntent.putExtra("description", description);
+        Log.d(TAG, "launchUpdateActivity: entryId: " + entryId);
+        updateIntent.putExtra(UpdateDetailsActivity.ENTRY_ID, entryId);
 
         context.startActivity(updateIntent);
     }
