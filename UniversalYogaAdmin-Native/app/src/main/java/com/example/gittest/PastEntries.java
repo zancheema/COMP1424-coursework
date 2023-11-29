@@ -2,12 +2,10 @@ package com.example.gittest;
 
 import android.database.Cursor;
 import android.os.Bundle;
-import android.view.LayoutInflater;
-import android.view.View;
-import android.view.ViewGroup;
-import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -15,6 +13,7 @@ public class PastEntries extends AppCompatActivity {
 
     private RecyclerView recyclerView;
     private DBHelper DB;
+    private EntryViewModel viewModel;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -24,6 +23,8 @@ public class PastEntries extends AppCompatActivity {
         // Initialize RecyclerView
         recyclerView = findViewById(R.id.recyclerView);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
+
+        viewModel = new ViewModelProvider(this).get(EntryViewModel.class);
     }
 
     @Override
@@ -42,10 +43,19 @@ public class PastEntries extends AppCompatActivity {
 
         // Set up RecyclerView Adapter
         if (res != null) {
-            PastEntriesAdapter adapter = new PastEntriesAdapter(this, res);
+            PastEntriesAdapter adapter = new PastEntriesAdapter(this, res, listeners);
             recyclerView.setAdapter(adapter);
         }
     }
+
+    private PastEntriesAdapter.PastEntriesAdapterOnClickListeners listeners = new PastEntriesAdapter.PastEntriesAdapterOnClickListeners() {
+        @Override
+        public void onDelete(long entryId) {
+            viewModel.deleteEntry(entryId);
+            Toast.makeText(PastEntries.this, "Entry Deleted successfully.", Toast.LENGTH_SHORT).show();
+            loadEntries();
+        }
+    };
 
     @Override
     protected void onDestroy() {

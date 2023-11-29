@@ -9,19 +9,24 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import androidx.recyclerview.widget.RecyclerView;
 
 public class PastEntriesAdapter extends RecyclerView.Adapter<PastEntriesAdapter.ViewHolder> {
+    public interface PastEntriesAdapterOnClickListeners {
+        void onDelete(long entryId);
+    }
+
     private static final String TAG = "PastEntriesAdapter";
 
     private final Cursor cursor;
     private final Context context; // Add this to store the context
+    private final PastEntriesAdapterOnClickListeners listeners;
 
-    public PastEntriesAdapter(Context context, Cursor cursor) {
+    public PastEntriesAdapter(Context context, Cursor cursor, PastEntriesAdapterOnClickListeners listeners) {
         this.context = context;
         this.cursor = cursor;
+        this.listeners = listeners;
     }
 
     @Override
@@ -65,6 +70,8 @@ public class PastEntriesAdapter extends RecyclerView.Adapter<PastEntriesAdapter.
                     launchUpdateActivity(entryId);
                 }
             });
+
+            holder.btnDeleteEntry.setOnClickListener(v -> listeners.onDelete(entryId));
         }
     }
 
@@ -82,6 +89,7 @@ public class PastEntriesAdapter extends RecyclerView.Adapter<PastEntriesAdapter.
         public final TextView textViewType;
         public final TextView textViewDescription;
         public final Button btnUpdate;
+        public final Button btnDeleteEntry;
 
         public ViewHolder(View view) {
             super(view);
@@ -93,6 +101,7 @@ public class PastEntriesAdapter extends RecyclerView.Adapter<PastEntriesAdapter.
             textViewType = view.findViewById(R.id.textViewType);
             textViewDescription = view.findViewById(R.id.textViewDescription);
             btnUpdate = view.findViewById(R.id.btnEditDetails); // Replace R.id.btnUpdate with the actual ID of your button
+            btnDeleteEntry = view.findViewById(R.id.btnDeleteEntry);
         }
     }
 

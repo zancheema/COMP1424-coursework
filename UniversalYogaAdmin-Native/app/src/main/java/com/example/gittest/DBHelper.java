@@ -59,6 +59,13 @@ public class DBHelper extends SQLiteOpenHelper {
         return result != -1;
     }
 
+    // Method to delete data with YogaEntry object
+    public boolean deleteCourseData(String entryId) {
+        SQLiteDatabase db = this.getWritableDatabase();
+        int rowId = db.delete("CourseDetails", "id = ?", new String[]{entryId});
+        return rowId != -1;
+    }
+
     // Method to update a YogaEntry
     public boolean updateYogaEntry(YogaEntry entry) {
         SQLiteDatabase db = this.getWritableDatabase();

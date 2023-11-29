@@ -44,6 +44,23 @@ public class EntryViewModel extends AndroidViewModel {
 
     }
 
+    public void deleteEntry(long entryId) {
+        new DeleteAsyncTask().execute(entryId);
+    }
+
+    private class DeleteAsyncTask extends AsyncTask<Long, Void, Boolean> {
+        @Override
+        protected Boolean doInBackground(Long... entryIds) {
+            long entryId = entryIds[0];
+            return dbHelper.deleteCourseData(entryId + "");
+        }
+
+        @Override
+        protected void onPostExecute(Boolean success) {
+            // do nothing for now
+        }
+    }
+
 
     private class UpdateEntryAsyncTask extends AsyncTask<YogaEntry, Void, Void> {
         @Override
