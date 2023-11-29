@@ -1,10 +1,13 @@
-package com.example.gittest;
+package com.example.gittest.db;
 
 import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
+
+import com.example.gittest.Course;
+import com.example.gittest.db.CourseContract.CourseEntry;
 
 public class DBHelper extends SQLiteOpenHelper {
     private static final String DATABASE_NAME = "CourseData.db";
@@ -16,12 +19,16 @@ public class DBHelper extends SQLiteOpenHelper {
 
     @Override
     public void onCreate(SQLiteDatabase db) {
-        db.execSQL("CREATE TABLE CourseDetails(id INTEGER PRIMARY KEY AUTOINCREMENT, day TEXT, time TEXT, capacity TEXT, duration TEXT, price TEXT, type TEXT, description TEXT)");
+//        db.execSQL("CREATE TABLE CourseDetails(id INTEGER PRIMARY KEY AUTOINCREMENT, day TEXT, time TEXT, capacity TEXT, duration TEXT, price TEXT, type TEXT, description TEXT)");
+        db.execSQL(CourseContract.SQL_CREATE_TABLE);
+        db.execSQL(ClassContract.SQL_CREATE_TABLE);
     }
 
     @Override
     public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
-        db.execSQL("DROP TABLE IF EXISTS CourseDetails");
+//        db.execSQL("DROP TABLE IF EXISTS CourseDetails");
+        db.execSQL(CourseContract.SQL_DELETE_ENTRIES);
+        db.execSQL(ClassContract.SQL_DELETE_ENTRIES);
         onCreate(db);
     }
 
@@ -29,13 +36,13 @@ public class DBHelper extends SQLiteOpenHelper {
     public boolean insertCourseData(String day, String time, String capacity, String duration, String price, String type, String description) {
         SQLiteDatabase db = this.getWritableDatabase();
         ContentValues contentValues = new ContentValues();
-        contentValues.put("day", day);
-        contentValues.put("time", time);
-        contentValues.put("capacity", capacity);
-        contentValues.put("duration", duration);
-        contentValues.put("price", price);
-        contentValues.put("type", type);
-        contentValues.put("description", description);
+        contentValues.put(CourseEntry.COLUMN_NAME_DAY, day);
+        contentValues.put(CourseEntry.COLUMN_NAME_TIME, time);
+        contentValues.put(CourseEntry.COLUMN_NAME_CAPACITY, capacity);
+        contentValues.put(CourseEntry.COLUMN_NAME_DURATION, duration);
+        contentValues.put(CourseEntry.COLUMN_NAME_PRICE, price);
+        contentValues.put(CourseEntry.COLUMN_NAME_TYPE, type);
+        contentValues.put(CourseEntry.COLUMN_NAME_DESCRIPTION, description);
 
         long result = db.insert("CourseDetails", null, contentValues);
         db.close();
@@ -43,16 +50,16 @@ public class DBHelper extends SQLiteOpenHelper {
     }
 
     // Method to insert data with a YogaEntry object
-    public boolean insertCourseData(YogaEntry entry) {
+    public boolean insertCourseData(Course entry) {
         SQLiteDatabase db = this.getWritableDatabase();
         ContentValues contentValues = new ContentValues();
-        contentValues.put("day", entry.getDay());
-        contentValues.put("time", entry.getTime());
-        contentValues.put("capacity", entry.getCapacity());
-        contentValues.put("duration", entry.getDuration());
-        contentValues.put("price", entry.getPrice());
-        contentValues.put("type", entry.getType());
-        contentValues.put("description", entry.getDescription());
+        contentValues.put(CourseEntry.COLUMN_NAME_DAY, entry.getDay());
+        contentValues.put(CourseEntry.COLUMN_NAME_TIME, entry.getTime());
+        contentValues.put(CourseEntry.COLUMN_NAME_CAPACITY, entry.getCapacity());
+        contentValues.put(CourseEntry.COLUMN_NAME_DURATION, entry.getDuration());
+        contentValues.put(CourseEntry.COLUMN_NAME_PRICE, entry.getPrice());
+        contentValues.put(CourseEntry.COLUMN_NAME_TYPE, entry.getType());
+        contentValues.put(CourseEntry.COLUMN_NAME_DESCRIPTION, entry.getDescription());
 
         long result = db.insert("CourseDetails", null, contentValues);
         db.close();
@@ -67,7 +74,7 @@ public class DBHelper extends SQLiteOpenHelper {
     }
 
     // Method to update a YogaEntry
-    public boolean updateYogaEntry(YogaEntry entry) {
+    public boolean updateYogaEntry(Course entry) {
         SQLiteDatabase db = this.getWritableDatabase();
         ContentValues values = new ContentValues();
 
@@ -90,7 +97,7 @@ public class DBHelper extends SQLiteOpenHelper {
     }
 
     // Method to get a YogaEntry by ID
-    public YogaEntry getEntryById(long entryId) {
+    public Course getEntryById(long entryId) {
         SQLiteDatabase db = this.getReadableDatabase();
         Cursor cursor = db.query(
                 "CourseDetails",
@@ -102,17 +109,17 @@ public class DBHelper extends SQLiteOpenHelper {
                 null
         );
 
-        YogaEntry entry = null;
+        Course entry = null;
         if (cursor != null && cursor.moveToFirst()) {
-            entry = new YogaEntry(
-                    cursor.getLong(cursor.getColumnIndex("id")),
-                    cursor.getString(cursor.getColumnIndex("day")),
-                    cursor.getString(cursor.getColumnIndex("time")),
-                    cursor.getInt(cursor.getColumnIndex("capacity")),
-                    cursor.getString(cursor.getColumnIndex("duration")),
-                    cursor.getString(cursor.getColumnIndex("price")),
-                    cursor.getString(cursor.getColumnIndex("type")),
-                    cursor.getString(cursor.getColumnIndex("description"))
+            entry = new Course(
+                    cursor.getLong(cursor.getColumnIndex(CourseEntry._ID)),
+                    cursor.getString(cursor.getColumnIndex(CourseEntry.COLUMN_NAME_DAY)),
+                    cursor.getString(cursor.getColumnIndex(CourseEntry.COLUMN_NAME_TIME)),
+                    cursor.getInt(cursor.getColumnIndex(CourseEntry.COLUMN_NAME_CAPACITY)),
+                    cursor.getDouble(cursor.getColumnIndex(CourseEntry.COLUMN_NAME_DURATION)),
+                    cursor.getDouble(cursor.getColumnIndex(CourseEntry.COLUMN_NAME_PRICE)),
+                    cursor.getString(cursor.getColumnIndex(CourseEntry.COLUMN_NAME_TYPE)),
+                    cursor.getString(cursor.getColumnIndex(CourseEntry.COLUMN_NAME_DESCRIPTION))
             );
             cursor.close();
         }

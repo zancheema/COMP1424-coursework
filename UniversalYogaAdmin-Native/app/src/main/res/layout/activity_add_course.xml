@@ -1,43 +1,46 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:orientation="vertical"
     android:padding="16dp"
-    tools:context=".MainActivity">
+    tools:context=".AddCourseActivity">
 
     <EditText
         android:id="@+id/editTextDay"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:enabled="true"
+        android:focusable="false"
         android:hint="Enter day"
-        android:inputType="text"/>
+        android:inputType="date" />
 
     <EditText
         android:id="@+id/editTextTime"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_below="@+id/editTextDay"
+        android:enabled="true"
+        android:focusable="false"
         android:hint="Enter time"
-        android:inputType="text" />
+        android:inputType="time" />
 
     <EditText
         android:id="@+id/editCapacity"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_below="@+id/editTextTime"
-        android:layout_marginTop="43dp"
         android:hint="Enter Capcity"
-        android:inputType="text" />
+        android:inputType="number" />
 
     <EditText
         android:id="@+id/editDuration"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_below="@+id/editCapacity"
-        android:hint="Enter Duration"
-        android:inputType="text"/>
+        android:hint="Enter Duration (min)"
+        android:inputType="number" />
 
     <EditText
         android:id="@+id/editPrice"
@@ -45,7 +48,7 @@
         android:layout_height="wrap_content"
         android:layout_below="@+id/editDuration"
         android:hint="Enter Price"
-        android:inputType="text"/>
+        android:inputType="numberDecimal" />
 
     <EditText
         android:id="@+id/editType"
@@ -53,7 +56,7 @@
         android:layout_height="wrap_content"
         android:layout_below="@+id/editPrice"
         android:hint="Enter Type"
-        android:inputType="text"/>
+        android:inputType="text" />
 
     <EditText
         android:id="@+id/editDescription"
@@ -61,24 +64,15 @@
         android:layout_height="wrap_content"
         android:layout_below="@+id/editType"
         android:hint="optional"
-        android:inputType="text"/>
+        android:inputType="text" />
 
     <Button
         android:id="@+id/buttonSubmit"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/editTextTime"
-        android:layout_marginTop="307dp"
+        android:layout_gravity="center"
+        android:layout_marginTop="32dp"
         android:onClick="onSubmitClick"
         android:text="Submit" />
 
-    <Button
-        android:id="@+id/buttonViewEntry"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/buttonSubmit"
-        android:layout_marginTop="16dp"
-        android:onClick="onViewEntryClick"
-        android:text="View Entry" />
-
-</RelativeLayout>
+</LinearLayout>

@@ -8,6 +8,8 @@ import androidx.lifecycle.AndroidViewModel;
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 
+import com.example.gittest.db.DBHelper;
+
 public class EntryViewModel extends AndroidViewModel {
     private final MutableLiveData<Long> insertionResult = new MutableLiveData<>();
     private DBHelper dbHelper; // Remove the assignment with null
@@ -21,18 +23,18 @@ public class EntryViewModel extends AndroidViewModel {
         return insertionResult;
     }
 
-    public void insertEntry(YogaEntry entry) {
+    public void insertEntry(Course entry) {
         new InsertAsyncTask().execute(entry);
     }
 
-    public void updateEntry(YogaEntry updatedEntry) {
+    public void updateEntry(Course updatedEntry) {
         new UpdateEntryAsyncTask().execute(updatedEntry);
     }
 
-    private class InsertAsyncTask extends AsyncTask<YogaEntry, Void, Long> {
+    private class InsertAsyncTask extends AsyncTask<Course, Void, Long> {
         @Override
-        protected Long doInBackground(YogaEntry... entries) {
-            YogaEntry entry = entries[0];
+        protected Long doInBackground(Course... entries) {
+            Course entry = entries[0];
             boolean isSuccess = dbHelper.insertCourseData(entry);
             return isSuccess ? 1L : -1L;
         }
@@ -62,10 +64,10 @@ public class EntryViewModel extends AndroidViewModel {
     }
 
 
-    private class UpdateEntryAsyncTask extends AsyncTask<YogaEntry, Void, Void> {
+    private class UpdateEntryAsyncTask extends AsyncTask<Course, Void, Void> {
         @Override
-        protected Void doInBackground(YogaEntry... entries) {
-            YogaEntry updatedEntry = entries[0];
+        protected Void doInBackground(Course... entries) {
+            Course updatedEntry = entries[0];
             dbHelper.updateYogaEntry(updatedEntry);
             return null;
         }

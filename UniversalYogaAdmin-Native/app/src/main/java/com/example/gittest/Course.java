@@ -1,17 +1,17 @@
 package com.example.gittest;
 
-public class YogaEntry {
+public class Course {
 
     private long id;
     private String dayOfWeek;
     private String time;
     private int capacity;
-    private String duration;
-    private String price;
+    private double duration;
+    private double price;
     private String type;
     private String description;
 
-    public YogaEntry(long id, String dayOfWeek, String time, int capacity, String duration, String price, String type, String description) {
+    public Course(long id, String dayOfWeek, String time, int capacity, double duration, double price, String type, String description) {
         this.id = id;
         this.dayOfWeek = dayOfWeek;
         this.time = time;
@@ -54,19 +54,19 @@ public class YogaEntry {
         this.capacity = capacity;
     }
 
-    public String getDuration() {
+    public double getDuration() {
         return duration;
     }
 
-    public void setDuration(String duration) {
+    public void setDuration(double duration) {
         this.duration = duration;
     }
 
-    public String getPrice() {
+    public double getPrice() {
         return price;
     }
 
-    public void setPrice(String price) {
+    public void setPrice(double price) {
         this.price = price;
     }
 
@@ -85,7 +85,4 @@ public class YogaEntry {
     public void setDescription(String description) {
         this.description = description;
     }
-
-
-
 }

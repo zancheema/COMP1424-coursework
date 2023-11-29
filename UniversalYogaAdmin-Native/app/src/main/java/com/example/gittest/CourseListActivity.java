@@ -1,7 +1,9 @@
 package com.example.gittest;
 
+import android.content.Intent;
 import android.database.Cursor;
 import android.os.Bundle;
+import android.view.View;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
@@ -9,22 +11,34 @@ import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-public class PastEntries extends AppCompatActivity {
+import com.example.gittest.db.DBHelper;
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
+
+public class CourseListActivity extends AppCompatActivity {
 
     private RecyclerView recyclerView;
     private DBHelper DB;
     private EntryViewModel viewModel;
+    private FloatingActionButton fabAddCourse;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_past_entries);
+        setContentView(R.layout.activity_course_list);
 
         // Initialize RecyclerView
         recyclerView = findViewById(R.id.recyclerView);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
+        fabAddCourse = findViewById(R.id.fabAddCourse);
 
         viewModel = new ViewModelProvider(this).get(EntryViewModel.class);
+
+        fabAddCourse.setOnClickListener(this::addCourse);
+    }
+
+    private void addCourse(View view) {
+        Intent intent = new Intent(this, AddCourseActivity.class);
+        startActivity(intent);
     }
 
     @Override
@@ -52,7 +66,7 @@ public class PastEntries extends AppCompatActivity {
         @Override
         public void onDelete(long entryId) {
             viewModel.deleteEntry(entryId);
-            Toast.makeText(PastEntries.this, "Entry Deleted successfully.", Toast.LENGTH_SHORT).show();
+            Toast.makeText(CourseListActivity.this, "Entry Deleted successfully.", Toast.LENGTH_SHORT).show();
             loadEntries();
         }
     };

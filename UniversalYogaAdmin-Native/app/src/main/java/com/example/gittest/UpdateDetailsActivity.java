@@ -1,5 +1,7 @@
 package com.example.gittest;
 
+import android.app.DatePickerDialog;
+import android.app.TimePickerDialog;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -9,6 +11,11 @@ import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.lifecycle.ViewModelProvider;
+
+import com.example.gittest.db.DBHelper;
+
+import java.time.LocalDate;
+import java.time.LocalTime;
 
 public class UpdateDetailsActivity extends AppCompatActivity {
     private static final String TAG = "UpdateDetailsActivity";
@@ -50,16 +57,34 @@ public class UpdateDetailsActivity extends AppCompatActivity {
         }
 
         // Retrieve the existing entry details based on the entryId
-        YogaEntry existingEntry = retrieveEntryDetails(entryId);
+        Course existingEntry = retrieveEntryDetails(entryId);
 
         // Populate the EditText fields with existing entry details
         populateFields(existingEntry);
 
-        // set onclick listener for update
+        // set onclick listeners
+        editDay.setOnClickListener(this::selectDate);
+        editTime.setOnClickListener(this::selectTime);
         buttonUpdate.setOnClickListener(this::onUpdateClick);
     }
 
-    private YogaEntry retrieveEntryDetails(long entryId) {
+    private void selectDate(View view) {
+        LocalDate today = LocalDate.now();
+        DatePickerDialog dialog = new DatePickerDialog(this, (datePicker, year, month, day) -> {
+            editDay.setText(day + "/" + month + "/" + year);
+        }, today.getYear(), today.getDayOfMonth(), today.getDayOfMonth());
+        dialog.show();
+    }
+
+    private void selectTime(View view) {
+        LocalTime now = LocalTime.now();
+        TimePickerDialog dialog = new TimePickerDialog(this, (timePicker, hour, minute) -> {
+            editTime.setText(hour + ":" + minute);
+        }, now.getHour(), now.getMinute(), true);
+        dialog.show();
+    }
+
+    private Course retrieveEntryDetails(long entryId) {
         // Use your DBHelper class or any other database-related code to retrieve entry details
         // Replace the following line with actual database query logic
 
@@ -67,13 +92,13 @@ public class UpdateDetailsActivity extends AppCompatActivity {
         return DB.getEntryById(entryId);
     }
 
-    private void populateFields(YogaEntry entry) {
+    private void populateFields(Course entry) {
         // Set the values of EditText fields based on the existing entry
         editDay.setText(entry.getDay());
         editTime.setText(entry.getTime());
         editCapacity.setText(String.valueOf(entry.getCapacity()));
-        editDuration.setText(entry.getDuration());
-        editPrice.setText(entry.getPrice());
+        editDuration.setText(entry.getDuration() + "");
+        editPrice.setText(entry.getPrice() + "");
         editType.setText(entry.getType());
         editDescription.setText(entry.getDescription());
     }
@@ -99,7 +124,7 @@ public class UpdateDetailsActivity extends AppCompatActivity {
             int capacityValue = Integer.parseInt(capacity);
 
             // Create an updated entry object
-            YogaEntry updatedEntry = new YogaEntry(entryId, day, time, capacityValue, duration, price, type, description);
+            Course updatedEntry = new Course(entryId, day, time, capacityValue, Double.parseDouble(duration), Double.parseDouble(price), type, description);
 
             // Update the entry in the database using ViewModel
             viewModel.updateEntry(updatedEntry);

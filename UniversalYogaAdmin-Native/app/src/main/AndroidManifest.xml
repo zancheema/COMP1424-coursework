@@ -13,7 +13,7 @@
         android:theme="@style/Theme.GitTest"
         tools:targetApi="31">
         <activity
-            android:name=".MainActivity"
+            android:name=".CourseListActivity"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -23,11 +23,12 @@
         </activity>
 
         <activity
-            android:name=".UpdateDetailsActivity"
-            android:exported="false"/>
+            android:name=".AddCourseActivity"
+            android:exported="false">
+        </activity>
 
         <activity
-            android:name=".PastEntries"
+            android:name=".UpdateDetailsActivity"
             android:exported="false"/>
 
         <activity

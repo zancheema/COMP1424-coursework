@@ -1,6 +1,7 @@
 package com.example.gittest;
 
-import android.content.Intent;
+import android.app.DatePickerDialog;
+import android.app.TimePickerDialog;
 import android.os.Bundle;
 import android.view.MenuItem;
 import android.view.View;
@@ -10,7 +11,12 @@ import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 
-public class MainActivity extends AppCompatActivity {
+import com.example.gittest.db.DBHelper;
+
+import java.time.LocalDate;
+import java.time.LocalTime;
+
+public class AddCourseActivity extends AppCompatActivity {
     private EditText dayEditText;
     private EditText timeEditText;
     private EditText capacityEditText;
@@ -23,7 +29,7 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
+        setContentView(R.layout.activity_add_course);
 
         dayEditText = findViewById(R.id.editTextDay);
         timeEditText = findViewById(R.id.editTextTime);
@@ -33,32 +39,37 @@ public class MainActivity extends AppCompatActivity {
         typeEditText = findViewById(R.id.editType);
         descriptionEditText = findViewById(R.id.editDescription);
 
-        Button submitButton = findViewById(R.id.buttonSubmit);
-        submitButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                onSubmitClick(v);
-            }
-        });
+        dayEditText.setOnClickListener(this::selectDate);
+        timeEditText.setOnClickListener(this::selectTime);
 
-        Button viewEntryButton = findViewById(R.id.buttonViewEntry);
-        viewEntryButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                onViewEntryClick(v);
-            }
-        });
+        Button submitButton = findViewById(R.id.buttonSubmit);
+        submitButton.setOnClickListener(this::onSubmitClick);
+
 
         DB = new DBHelper(this);
     }
 
+    private void selectDate(View view) {
+        LocalDate today = LocalDate.now();
+        DatePickerDialog dialog = new DatePickerDialog(this, (datePicker, year, month, day) -> {
+            dayEditText.setText(day + "/" + month + "/" + year);
+        }, today.getYear(), today.getDayOfMonth(), today.getDayOfMonth());
+        dialog.show();
+    }
+
+    private void selectTime(View view) {
+        LocalTime now = LocalTime.now();
+        TimePickerDialog dialog = new TimePickerDialog(this, (timePicker, hour, minute) -> {
+            timeEditText.setText(hour + ":" + minute);
+        }, now.getHour(), now.getMinute(), true);
+        dialog.show();
+    }
+
     public void onSubmitClick(View view) {
         if (validateAndSubmit()) {
-            // Start the ConfirmationActivity only if validation is successful
-            Intent confirmationIntent = new Intent(MainActivity.this, ConfirmationActivity.class);
-            confirmationIntent.putExtra("confirmationMessage", getConfirmationMessage());
-            startActivity(confirmationIntent);
-
+            Toast.makeText(this, "Course added successfully.", Toast.LENGTH_SHORT)
+                    .show();
+            finish();
         }
     }
 
@@ -95,11 +106,6 @@ public class MainActivity extends AppCompatActivity {
 
         // Return the result of the insertion
         return isInserted;
-    }
-
-    private void onViewEntryClick(View view) {
-        // Start the PastEntriesActivity
-        startActivity(new Intent(MainActivity.this, PastEntries.class));
     }
 
     @Override
