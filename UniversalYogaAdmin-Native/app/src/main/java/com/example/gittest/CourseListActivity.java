@@ -13,6 +13,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.gittest.db.DBHelper;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
+import androidx.core.splashscreen.SplashScreen;
 
 import java.util.List;
 
@@ -27,6 +28,7 @@ public class CourseListActivity extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        SplashScreen.installSplashScreen(this);
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_course_list);
 
