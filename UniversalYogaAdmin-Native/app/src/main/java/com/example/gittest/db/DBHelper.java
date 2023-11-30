@@ -170,7 +170,7 @@ public class DBHelper extends SQLiteOpenHelper {
         );
     }
 
-    public List<ClassData> getClassData(long courseId) {
+    public List<ClassData> getClassDataList(long courseId) {
         SQLiteDatabase db = this.getReadableDatabase();
         Cursor cursor = db.rawQuery(
                 "SELECT * FROM " + ClassEntry.TABLE_NAME + " WHERE " + ClassEntry.COLUMN_NAME_COURSE_ID + "=?",

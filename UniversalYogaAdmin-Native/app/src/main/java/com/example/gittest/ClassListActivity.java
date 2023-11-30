@@ -60,7 +60,7 @@ public class ClassListActivity extends AppCompatActivity {
     private void loadClasses() {
         rcClassList.setLayoutManager(new LinearLayoutManager(this));
         DBHelper db = new DBHelper(this);
-        List<ClassData> classDataList = db.getClassData(courseId);
+        List<ClassData> classDataList = db.getClassDataList(courseId);
         if (classDataList.isEmpty()) {
             tvNoClasses.setVisibility(View.VISIBLE);
         } else {

@@ -3,6 +3,7 @@ package com.example.gittest;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
@@ -16,12 +17,22 @@ import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.example.gittest.api.APIClient;
+import com.example.gittest.api.APIInterface;
+import com.example.gittest.api.ClassesPayload;
+import com.example.gittest.api.ClassesPostResponse;
 import com.example.gittest.db.DBHelper;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
+import java.util.ArrayList;
 import java.util.List;
 
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
+
 public class CourseListActivity extends AppCompatActivity {
+    private static final String TAG = "CourseListActivity";
 
     private RecyclerView recyclerView;
     private TextView tvNoCourses;
@@ -114,7 +125,41 @@ public class CourseListActivity extends AppCompatActivity {
 
     private void upload() {
         // upload
-        Toast.makeText(this, "Upload Successful.", Toast.LENGTH_SHORT).show();
+        APIInterface apiInterface = APIClient.getClient().create(APIInterface.class);
+
+        ClassesPayload payload = new ClassesPayload();
+        payload.setUserId("group_29");
+        List<ClassesPayload.Detail> detailList = new ArrayList<>();
+        List<Course> courseDataList = DB.getCourseDataList();
+        for (Course course : courseDataList) {
+            ClassesPayload.Detail detail = new ClassesPayload.Detail();
+            detail.setDayOfWeek(course.getDay());
+            detail.setTimeOfDay(course.getTime());
+
+            List<ClassData> classDataList = DB.getClassDataList(course.getId());
+            List<ClassesPayload.ClassInfo> classList = new ArrayList<>();
+            for (ClassData classData : classDataList) {
+                ClassesPayload.ClassInfo classInfo = new ClassesPayload.ClassInfo(classData.getDate(), classData.getTeacher());
+                classList.add(classInfo);
+            }
+            detail.setClassList(classList);
+            detailList.add(detail);
+        }
+        payload.setDetailList(detailList);
+        Log.d(TAG, "upload: " + payload);
+
+        apiInterface.submitClasses(payload)
+                        .enqueue(new Callback<ClassesPostResponse>() {
+                            @Override
+                            public void onResponse(Call<ClassesPostResponse> call, Response<ClassesPostResponse> response) {
+                                Toast.makeText(CourseListActivity.this, response.body().getMessage(), Toast.LENGTH_SHORT).show();
+                            }
+
+                            @Override
+                            public void onFailure(Call<ClassesPostResponse> call, Throwable t) {
+                                Toast.makeText(CourseListActivity.this, t.getLocalizedMessage(), Toast.LENGTH_SHORT).show();
+                            }
+                        });
     }
 
     @Override
