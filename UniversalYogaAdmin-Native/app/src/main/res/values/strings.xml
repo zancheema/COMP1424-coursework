@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">gitTest</string>
+    <string name="app_name">Yoga Admin</string>
     <string name="update">Update</string>
     <string name="upload">Upload</string>
     <string-array name="days_array">

@@ -138,7 +138,8 @@ public class DBHelper extends SQLiteOpenHelper {
 
     public Course getCourse(long courseId) {
         SQLiteDatabase db = this.getReadableDatabase();
-        Cursor cursor = db.rawQuery("SELECT * FROM " + CourseEntry.TABLE_NAME, null);
+        Cursor cursor = db.rawQuery("SELECT * FROM " + CourseEntry.TABLE_NAME + " WHERE id=?",
+                new String[]{"" + courseId});
         if (cursor != null && cursor.moveToNext()) {
             return getCourse(cursor);
         }

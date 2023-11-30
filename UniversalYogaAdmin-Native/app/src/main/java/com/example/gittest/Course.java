@@ -85,4 +85,18 @@ public class Course {
     public void setDescription(String description) {
         this.description = description;
     }
+
+    @Override
+    public String toString() {
+        return "Course{" +
+                "id=" + id +
+                ", dayOfWeek='" + dayOfWeek + '\'' +
+                ", time='" + time + '\'' +
+                ", capacity=" + capacity +
+                ", duration=" + duration +
+                ", price=" + price +
+                ", type='" + type + '\'' +
+                ", description='" + description + '\'' +
+                '}';
+    }
 }

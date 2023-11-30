@@ -4,6 +4,7 @@ import android.app.DatePickerDialog;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Looper;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -21,6 +22,8 @@ import java.util.Calendar;
 import java.util.Date;
 
 public class AddClassActivity extends AppCompatActivity {
+    private static final String TAG = "AddClassActivity";
+
     public static final String PARAM_COURSE_ID = "courseId";
 
     private long courseId;
@@ -46,6 +49,7 @@ public class AddClassActivity extends AppCompatActivity {
         db = new DBHelper(this);
 
         course = db.getCourse(courseId);
+        Log.d(TAG, "onCreate: course: " + course);
 
         etTeacher = findViewById(R.id.etTeacher);
         etDate = findViewById(R.id.etDate);
@@ -82,7 +86,7 @@ public class AddClassActivity extends AppCompatActivity {
             if (dayName.equals(course.getDay())) {
                 etDate.setText(day + "/" + month + "/" + year);
             } else {
-                Toast.makeText(AddClassActivity.this, "You can only select " + course.getDay() + "s.", Toast.LENGTH_LONG)
+                Toast.makeText(AddClassActivity.this, "You can only select " + course.getDay() + "s.", Toast.LENGTH_SHORT)
                         .show();
             }
         }, today.getYear(), today.getDayOfMonth(), today.getDayOfMonth());
@@ -95,5 +99,11 @@ public class AddClassActivity extends AppCompatActivity {
         Date date = calendar.getTime();
         Format f = new SimpleDateFormat("EEEE");
         return f.format(date);
+    }
+
+    @Override
+    protected void onDestroy() {
+        if (db != null) db.close();
+        super.onDestroy();
     }
 }

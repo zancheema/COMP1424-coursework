@@ -1,5 +1,6 @@
 package com.example.gittest;
 
+import android.app.AlertDialog;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
@@ -92,9 +93,17 @@ public class CourseListActivity extends AppCompatActivity {
 
         @Override
         public void onDelete(long courseId) {
-            viewModel.deleteEntry(courseId);
-            Toast.makeText(CourseListActivity.this, "Entry Deleted successfully.", Toast.LENGTH_SHORT).show();
-            loadEntries();
+            new AlertDialog.Builder(CourseListActivity.this)
+                    .setTitle("Are you sure?")
+                    .setMessage("The course and all associated classes will be permanently deleted.")
+                    .setPositiveButton("Yes", (dialog, which) -> {
+                        viewModel.deleteEntry(courseId);
+                        Toast.makeText(CourseListActivity.this, "Entry Deleted successfully.", Toast.LENGTH_SHORT).show();
+                        loadEntries();
+                    })
+                    .setNegativeButton("Cancel", null)
+                    .show();
+//                            .setNegativeButton("")
         }
 
         @Override
