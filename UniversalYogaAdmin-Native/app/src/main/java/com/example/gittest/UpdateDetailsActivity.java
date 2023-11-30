@@ -5,8 +5,10 @@ import android.app.TimePickerDialog;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.Spinner;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
@@ -22,7 +24,8 @@ public class UpdateDetailsActivity extends AppCompatActivity {
     public static final String ENTRY_ID = "entryId";
 
     private final DBHelper DB = new DBHelper(this);
-    private EditText editDay, editTime, editCapacity, editDuration, editPrice, editType, editDescription;
+    private EditText editTime, editCapacity, editDuration, editPrice, editType, editDescription;
+    private Spinner spinnerDays;
     private Button buttonUpdate;
     private EntryViewModel viewModel;
     private long entryId; // The ID of the entry to be updated
@@ -38,7 +41,8 @@ public class UpdateDetailsActivity extends AppCompatActivity {
         viewModel = new ViewModelProvider(this).get(EntryViewModel.class);
 
         // Initialize EditText fields
-        editDay = findViewById(R.id.editTextDay);
+//        editDay = findViewById(R.id.editTextDay);
+        spinnerDays = findViewById(R.id.spinnerDays);
         editTime = findViewById(R.id.editTextTime);
         editCapacity = findViewById(R.id.editCapacity);
         editDuration = findViewById(R.id.editDuration);
@@ -56,6 +60,14 @@ public class UpdateDetailsActivity extends AppCompatActivity {
             finish();
         }
 
+        ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(
+                this,
+                R.array.days_array,
+                android.R.layout.simple_spinner_item
+        );
+        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        spinnerDays.setAdapter(adapter);
+
         // Retrieve the existing entry details based on the entryId
         Course existingEntry = retrieveEntryDetails(entryId);
 
@@ -63,18 +75,11 @@ public class UpdateDetailsActivity extends AppCompatActivity {
         populateFields(existingEntry);
 
         // set onclick listeners
-        editDay.setOnClickListener(this::selectDate);
         editTime.setOnClickListener(this::selectTime);
         buttonUpdate.setOnClickListener(this::onUpdateClick);
     }
 
-    private void selectDate(View view) {
-        LocalDate today = LocalDate.now();
-        DatePickerDialog dialog = new DatePickerDialog(this, (datePicker, year, month, day) -> {
-            editDay.setText(day + "/" + month + "/" + year);
-        }, today.getYear(), today.getDayOfMonth(), today.getDayOfMonth());
-        dialog.show();
-    }
+
 
     private void selectTime(View view) {
         LocalTime now = LocalTime.now();
@@ -94,7 +99,8 @@ public class UpdateDetailsActivity extends AppCompatActivity {
 
     private void populateFields(Course entry) {
         // Set the values of EditText fields based on the existing entry
-        editDay.setText(entry.getDay());
+//        editDay.setText(entry.getDay());
+        spinnerDays.setSelection(getSelectedDayIndex(entry.getDay()));
         editTime.setText(entry.getTime());
         editCapacity.setText(String.valueOf(entry.getCapacity()));
         editDuration.setText(entry.getDuration() + "");
@@ -103,9 +109,17 @@ public class UpdateDetailsActivity extends AppCompatActivity {
         editDescription.setText(entry.getDescription());
     }
 
+    private int getSelectedDayIndex(String day) {
+        String[] days = getResources().getStringArray(R.array.days_array);
+        for (int i = 0; i < days.length; i++) {
+            if (days[i].equals(day)) return i;
+        }
+        return -1;
+    }
+
     public void onUpdateClick(View view) {
         // Get updated input values
-        String day = editDay.getText().toString().trim();
+        String day = spinnerDays.getSelectedItem().toString().trim();
         String time = editTime.getText().toString().trim();
         String capacity = editCapacity.getText().toString().trim();
         String duration = editDuration.getText().toString().trim();

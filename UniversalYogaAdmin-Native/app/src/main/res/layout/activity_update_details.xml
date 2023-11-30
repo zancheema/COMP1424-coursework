@@ -5,16 +5,19 @@
     <!-- res/layout/activity_update_details.xml -->
 
 
-    <!-- Day -->
-    <EditText
-        android:id="@+id/editTextDay"
+<!--    &lt;!&ndash; Day &ndash;&gt;-->
+<!--    <EditText-->
+<!--        android:id="@+id/editTextDay"-->
+<!--        android:layout_width="match_parent"-->
+<!--        android:layout_height="wrap_content"-->
+<!--        android:layout_marginTop="16dp"-->
+<!--        android:hint="Enter day"-->
+<!--        android:inputType="date" />-->
+
+    <Spinner
+        android:id="@+id/spinnerDays"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="16dp"
-        android:enabled="true"
-        android:focusable="false"
-        android:hint="Enter day"
-        android:inputType="date" />
+        android:layout_height="wrap_content" />
 
     <!-- Time -->
     <EditText

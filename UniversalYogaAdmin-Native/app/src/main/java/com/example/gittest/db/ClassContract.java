@@ -16,7 +16,9 @@ public class ClassContract {
             ClassEntry.COLUMN_NAME_TEACHER + " TEXT, " +
             ClassEntry.COLUMN_NAME_DATE + " TEXT, " +
             ClassEntry.COLUMN_NAME_COURSE_ID + " INTEGER, " +
-            "FOREIGN KEY(" + ClassEntry.COLUMN_NAME_COURSE_ID + ")" + " REFERENCES " + CourseEntry.TABLE_NAME + "(" + CourseEntry._ID + ")" +
+            "FOREIGN KEY(" + ClassEntry.COLUMN_NAME_COURSE_ID + ") " +
+            "REFERENCES " + CourseEntry.TABLE_NAME + "(" + CourseEntry._ID + ") " +
+            "ON DELETE CASCADE" +
             ");";
 
     public static final String SQL_DELETE_ENTRIES = "DROP TABLE IF EXISTS " + ClassEntry.TABLE_NAME;

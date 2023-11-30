@@ -7,14 +7,17 @@
     android:padding="16dp"
     tools:context=".AddCourseActivity">
 
-    <EditText
-        android:id="@+id/editTextDay"
+    <!--    <EditText-->
+    <!--        android:id="@+id/editTextDay"-->
+    <!--        android:layout_width="match_parent"-->
+    <!--        android:layout_height="wrap_content"-->
+    <!--        android:hint="Enter day"-->
+    <!--        android:inputType="date" />-->
+
+    <Spinner
+        android:id="@+id/spinnerDays"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:enabled="true"
-        android:focusable="false"
-        android:hint="Enter day"
-        android:inputType="date" />
+        android:layout_height="wrap_content" />
 
     <EditText
         android:id="@+id/editTextTime"

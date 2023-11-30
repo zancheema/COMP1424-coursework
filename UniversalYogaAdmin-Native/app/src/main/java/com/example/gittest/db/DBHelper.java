@@ -7,7 +7,12 @@ import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 
 import com.example.gittest.Course;
+import com.example.gittest.ClassData;
+import com.example.gittest.db.ClassContract.ClassEntry;
 import com.example.gittest.db.CourseContract.CourseEntry;
+
+import java.util.ArrayList;
+import java.util.List;
 
 public class DBHelper extends SQLiteOpenHelper {
     private static final String DATABASE_NAME = "CourseData.db";
@@ -44,7 +49,7 @@ public class DBHelper extends SQLiteOpenHelper {
         contentValues.put(CourseEntry.COLUMN_NAME_TYPE, type);
         contentValues.put(CourseEntry.COLUMN_NAME_DESCRIPTION, description);
 
-        long result = db.insert("CourseDetails", null, contentValues);
+        long result = db.insert(CourseEntry.TABLE_NAME, null, contentValues);
         db.close();
         return result != -1;
     }
@@ -61,7 +66,18 @@ public class DBHelper extends SQLiteOpenHelper {
         contentValues.put(CourseEntry.COLUMN_NAME_TYPE, entry.getType());
         contentValues.put(CourseEntry.COLUMN_NAME_DESCRIPTION, entry.getDescription());
 
-        long result = db.insert("CourseDetails", null, contentValues);
+        long result = db.insert(CourseEntry.TABLE_NAME, null, contentValues);
+        db.close();
+        return result != -1;
+    }
+
+    public boolean insertClassData(ClassData data) {
+        SQLiteDatabase db = this.getWritableDatabase();
+        ContentValues contentValues = new ContentValues();
+        contentValues.put(ClassEntry.COLUMN_NAME_TEACHER, data.getTeacher());
+        contentValues.put(ClassEntry.COLUMN_NAME_DATE, data.getDate());
+        contentValues.put(ClassEntry.COLUMN_NAME_COURSE_ID, data.getCourseId());
+        long result = db.insert(ClassEntry.TABLE_NAME, null, contentValues);
         db.close();
         return result != -1;
     }
@@ -69,7 +85,7 @@ public class DBHelper extends SQLiteOpenHelper {
     // Method to delete data with YogaEntry object
     public boolean deleteCourseData(String entryId) {
         SQLiteDatabase db = this.getWritableDatabase();
-        int rowId = db.delete("CourseDetails", "id = ?", new String[]{entryId});
+        int rowId = db.delete(CourseEntry.TABLE_NAME, "id = ?", new String[]{entryId});
         return rowId != -1;
     }
 
@@ -89,7 +105,7 @@ public class DBHelper extends SQLiteOpenHelper {
         String whereClause = "id = ?";
         String[] whereArgs = {String.valueOf(entry.getId())};
 
-        int rowsAffected = db.update("CourseDetails", values, whereClause, whereArgs);
+        int rowsAffected = db.update(CourseEntry.TABLE_NAME, values, whereClause, whereArgs);
 
         db.close();
 
@@ -100,7 +116,7 @@ public class DBHelper extends SQLiteOpenHelper {
     public Course getEntryById(long entryId) {
         SQLiteDatabase db = this.getReadableDatabase();
         Cursor cursor = db.query(
-                "CourseDetails",
+                CourseEntry.TABLE_NAME,
                 null,
                 "id = ?",
                 new String[]{String.valueOf(entryId)},
@@ -127,9 +143,42 @@ public class DBHelper extends SQLiteOpenHelper {
         return entry;
     }
 
-    // Method to get all course data as a Cursor
-    public Cursor getCourseData() {
+    public List<Course> getCourseDAta() {
         SQLiteDatabase db = this.getReadableDatabase();
-        return db.rawQuery("SELECT * FROM CourseDetails", null);
+        Cursor cursor = db.rawQuery("SELECT * FROM " + CourseEntry.TABLE_NAME, null);
+        List<Course> courseDataList = new ArrayList<>();
+        while (cursor != null && cursor.moveToNext()) {
+            Course course = new Course(
+                    cursor.getLong(cursor.getColumnIndex(CourseEntry._ID)),
+                    cursor.getString(cursor.getColumnIndex(CourseEntry.COLUMN_NAME_DAY)),
+                    cursor.getString(cursor.getColumnIndex(CourseEntry.COLUMN_NAME_TIME)),
+                    cursor.getInt(cursor.getColumnIndex(CourseEntry.COLUMN_NAME_CAPACITY)),
+                    cursor.getDouble(cursor.getColumnIndex(CourseEntry.COLUMN_NAME_DURATION)),
+                    cursor.getDouble(cursor.getColumnIndex(CourseEntry.COLUMN_NAME_PRICE)),
+                    cursor.getString(cursor.getColumnIndex(CourseEntry.COLUMN_NAME_TYPE)),
+                    cursor.getString(cursor.getColumnIndex(CourseEntry.COLUMN_NAME_DESCRIPTION))
+            );
+            courseDataList.add(course);
+        }
+        return courseDataList;
+    }
+
+    public List<ClassData> getClassData(long courseId) {
+        SQLiteDatabase db = this.getReadableDatabase();
+        Cursor cursor = db.rawQuery(
+                "SELECT * FROM " + ClassEntry.TABLE_NAME + " WHERE " + ClassEntry.COLUMN_NAME_COURSE_ID + "=?",
+                new String[]{"" + courseId}
+        );
+        List<ClassData> classDataList = new ArrayList<>();
+        while (cursor != null && cursor.moveToNext()) {
+            ClassData data = new ClassData(
+                    cursor.getLong(cursor.getColumnIndex(ClassEntry._ID)),
+                    cursor.getString(cursor.getColumnIndex(ClassEntry.COLUMN_NAME_TEACHER)),
+                    cursor.getString(cursor.getColumnIndex(ClassEntry.COLUMN_NAME_DATE)),
+                    cursor.getLong(cursor.getColumnIndex(ClassEntry.COLUMN_NAME_COURSE_ID))
+            );
+            classDataList.add(data);
+        }
+        return classDataList;
     }
 }

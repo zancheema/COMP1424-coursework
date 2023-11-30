@@ -13,6 +13,12 @@
         android:theme="@style/Theme.GitTest"
         tools:targetApi="31">
         <activity
+            android:name=".ClassListActivity"
+            android:exported="false" />
+        <activity
+            android:name=".AddClassActivity"
+            android:exported="false" />
+        <activity
             android:name=".CourseListActivity"
             android:exported="true">
             <intent-filter>
@@ -21,23 +27,15 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-
         <activity
             android:name=".AddCourseActivity"
-            android:exported="false">
-        </activity>
-
+            android:exported="false" />
         <activity
             android:name=".UpdateDetailsActivity"
-            android:exported="false"/>
-
+            android:exported="false" />
         <activity
             android:name=".ConfirmationActivity"
-            android:exported="false">
-
-
-
-        </activity>
+            android:exported="false" />
     </application>
 
 </manifest>
