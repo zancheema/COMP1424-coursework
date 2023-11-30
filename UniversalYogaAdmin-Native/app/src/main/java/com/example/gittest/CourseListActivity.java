@@ -7,13 +7,13 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.splashscreen.SplashScreen;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.gittest.db.DBHelper;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
-import androidx.core.splashscreen.SplashScreen;
 
 import java.util.List;
 

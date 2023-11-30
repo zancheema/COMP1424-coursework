@@ -1,6 +1,5 @@
 package com.example.gittest;
 
-import android.app.DatePickerDialog;
 import android.app.TimePickerDialog;
 import android.os.Bundle;
 import android.util.Log;
@@ -12,11 +11,11 @@ import android.widget.Spinner;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.splashscreen.SplashScreen;
 import androidx.lifecycle.ViewModelProvider;
 
 import com.example.gittest.db.DBHelper;
 
-import java.time.LocalDate;
 import java.time.LocalTime;
 
 public class UpdateDetailsActivity extends AppCompatActivity {
@@ -32,6 +31,7 @@ public class UpdateDetailsActivity extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        SplashScreen.installSplashScreen(this);
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_update_details);
 //        entryId = getIntent().getLongExtra("entryId", -1);

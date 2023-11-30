@@ -1,9 +1,7 @@
 package com.example.gittest;
 
-import android.app.DatePickerDialog;
 import android.app.TimePickerDialog;
 import android.os.Bundle;
-import android.view.MenuItem;
 import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
@@ -12,10 +10,10 @@ import android.widget.Spinner;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.splashscreen.SplashScreen;
 
 import com.example.gittest.db.DBHelper;
 
-import java.time.LocalDate;
 import java.time.LocalTime;
 
 public class AddCourseActivity extends AppCompatActivity {
@@ -31,6 +29,7 @@ public class AddCourseActivity extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        SplashScreen.installSplashScreen(this);
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_add_course);
 
@@ -109,18 +108,5 @@ public class AddCourseActivity extends AppCompatActivity {
 
         // Return the result of the insertion
         return isInserted;
-    }
-
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        switch (item.getItemId()) {
-            case android.R.id.home:
-                // Handle the Up button press (if needed)
-                onBackPressed(); // or finish()
-                return true;
-            // Handle other menu items if needed
-            default:
-                return super.onOptionsItemSelected(item);
-        }
     }
 }

@@ -6,8 +6,8 @@ import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 
-import com.example.gittest.Course;
 import com.example.gittest.ClassData;
+import com.example.gittest.Course;
 import com.example.gittest.db.ClassContract.ClassEntry;
 import com.example.gittest.db.CourseContract.CourseEntry;
 
