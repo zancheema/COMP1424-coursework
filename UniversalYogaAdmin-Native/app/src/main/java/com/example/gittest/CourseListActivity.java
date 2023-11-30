@@ -2,6 +2,10 @@ package com.example.gittest;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -89,6 +93,29 @@ public class CourseListActivity extends AppCompatActivity {
             CourseListActivity.this.startActivity(intent);
         }
     };
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        MenuInflater inflater = getMenuInflater();
+        inflater.inflate(R.menu.home_menu, menu);
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(@NonNull MenuItem item) {
+        int itemId = item.getItemId();
+        if (itemId == R.id.action_upload) {
+            upload();
+            return true;
+        } else {
+            return super.onOptionsItemSelected(item);
+        }
+    }
+
+    private void upload() {
+        // upload
+        Toast.makeText(this, "Upload Successful.", Toast.LENGTH_SHORT).show();
+    }
 
     @Override
     protected void onDestroy() {

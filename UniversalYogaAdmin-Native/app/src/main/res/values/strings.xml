@@ -1,6 +1,7 @@
 <resources>
     <string name="app_name">gitTest</string>
     <string name="update">Update</string>
+    <string name="upload">Upload</string>
     <string-array name="days_array">
         <item>Monday</item>
         <item>Tuesday</item>
