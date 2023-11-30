@@ -66,7 +66,7 @@ public class CourseListActivity extends AppCompatActivity {
 
     private void loadEntries() {
         DB = new DBHelper(this);
-        List<Course> courseDataList = DB.getCourseDAta();
+        List<Course> courseDataList = DB.getCourseDataList();
         tvNoCourses.setVisibility(courseDataList.isEmpty() ? View.VISIBLE : View.INVISIBLE);
         courseListAdapter.setData(courseDataList);
     }

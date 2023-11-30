@@ -14,12 +14,18 @@ import androidx.core.splashscreen.SplashScreen;
 
 import com.example.gittest.db.DBHelper;
 
+import java.text.Format;
+import java.text.SimpleDateFormat;
 import java.time.LocalDate;
+import java.util.Calendar;
+import java.util.Date;
 
 public class AddClassActivity extends AppCompatActivity {
     public static final String PARAM_COURSE_ID = "courseId";
 
     private long courseId;
+    private Course course;
+    private DBHelper db;
     private EditText etTeacher;
     private EditText etDate;
     private Button btnSave;
@@ -37,6 +43,10 @@ public class AddClassActivity extends AppCompatActivity {
             finish();
         }
 
+        db = new DBHelper(this);
+
+        course = db.getCourse(courseId);
+
         etTeacher = findViewById(R.id.etTeacher);
         etDate = findViewById(R.id.etDate);
         btnSave = findViewById(R.id.btnSave);
@@ -52,7 +62,6 @@ public class AddClassActivity extends AppCompatActivity {
             Toast.makeText(this, "No field must be empty.", Toast.LENGTH_SHORT).show();
             return;
         }
-        DBHelper db = new DBHelper(this);
         new Thread(() -> {
             boolean success = db.insertClassData(new ClassData(0L, teacher, date, courseId));
             mainHandler.post(() -> {
@@ -69,8 +78,22 @@ public class AddClassActivity extends AppCompatActivity {
     private void selectDate(View view) {
         LocalDate today = LocalDate.now();
         DatePickerDialog dialog = new DatePickerDialog(this, (datePicker, year, month, day) -> {
-            etDate.setText(day + "/" + month + "/" + year);
+            String dayName = getDayName(year, month, day);
+            if (dayName.equals(course.getDay())) {
+                etDate.setText(day + "/" + month + "/" + year);
+            } else {
+                Toast.makeText(AddClassActivity.this, "You can only select " + course.getDay() + "s.", Toast.LENGTH_LONG)
+                        .show();
+            }
         }, today.getYear(), today.getDayOfMonth(), today.getDayOfMonth());
         dialog.show();
+    }
+
+    private String getDayName(int year, int month, int day) {
+        Calendar calendar = Calendar.getInstance();
+        calendar.set(year, month, day);
+        Date date = calendar.getTime();
+        Format f = new SimpleDateFormat("EEEE");
+        return f.format(date);
     }
 }

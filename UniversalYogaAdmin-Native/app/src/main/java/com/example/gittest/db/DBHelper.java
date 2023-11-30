@@ -6,6 +6,8 @@ import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 
+import androidx.annotation.NonNull;
+
 import com.example.gittest.ClassData;
 import com.example.gittest.Course;
 import com.example.gittest.db.ClassContract.ClassEntry;
@@ -127,40 +129,45 @@ public class DBHelper extends SQLiteOpenHelper {
 
         Course entry = null;
         if (cursor != null && cursor.moveToFirst()) {
-            entry = new Course(
-                    cursor.getLong(cursor.getColumnIndex(CourseEntry._ID)),
-                    cursor.getString(cursor.getColumnIndex(CourseEntry.COLUMN_NAME_DAY)),
-                    cursor.getString(cursor.getColumnIndex(CourseEntry.COLUMN_NAME_TIME)),
-                    cursor.getInt(cursor.getColumnIndex(CourseEntry.COLUMN_NAME_CAPACITY)),
-                    cursor.getDouble(cursor.getColumnIndex(CourseEntry.COLUMN_NAME_DURATION)),
-                    cursor.getDouble(cursor.getColumnIndex(CourseEntry.COLUMN_NAME_PRICE)),
-                    cursor.getString(cursor.getColumnIndex(CourseEntry.COLUMN_NAME_TYPE)),
-                    cursor.getString(cursor.getColumnIndex(CourseEntry.COLUMN_NAME_DESCRIPTION))
-            );
+            entry = getCourse(cursor);
             cursor.close();
         }
 
         return entry;
     }
 
-    public List<Course> getCourseDAta() {
+    public Course getCourse(long courseId) {
+        SQLiteDatabase db = this.getReadableDatabase();
+        Cursor cursor = db.rawQuery("SELECT * FROM " + CourseEntry.TABLE_NAME, null);
+        if (cursor != null && cursor.moveToNext()) {
+            return getCourse(cursor);
+        }
+        return null;
+    }
+
+    public List<Course> getCourseDataList() {
         SQLiteDatabase db = this.getReadableDatabase();
         Cursor cursor = db.rawQuery("SELECT * FROM " + CourseEntry.TABLE_NAME, null);
         List<Course> courseDataList = new ArrayList<>();
         while (cursor != null && cursor.moveToNext()) {
-            Course course = new Course(
-                    cursor.getLong(cursor.getColumnIndex(CourseEntry._ID)),
-                    cursor.getString(cursor.getColumnIndex(CourseEntry.COLUMN_NAME_DAY)),
-                    cursor.getString(cursor.getColumnIndex(CourseEntry.COLUMN_NAME_TIME)),
-                    cursor.getInt(cursor.getColumnIndex(CourseEntry.COLUMN_NAME_CAPACITY)),
-                    cursor.getDouble(cursor.getColumnIndex(CourseEntry.COLUMN_NAME_DURATION)),
-                    cursor.getDouble(cursor.getColumnIndex(CourseEntry.COLUMN_NAME_PRICE)),
-                    cursor.getString(cursor.getColumnIndex(CourseEntry.COLUMN_NAME_TYPE)),
-                    cursor.getString(cursor.getColumnIndex(CourseEntry.COLUMN_NAME_DESCRIPTION))
-            );
+            Course course = getCourse(cursor);
             courseDataList.add(course);
         }
         return courseDataList;
+    }
+
+    @NonNull
+    private static Course getCourse(Cursor cursor) {
+        return new Course(
+                cursor.getLong(cursor.getColumnIndex(CourseEntry._ID)),
+                cursor.getString(cursor.getColumnIndex(CourseEntry.COLUMN_NAME_DAY)),
+                cursor.getString(cursor.getColumnIndex(CourseEntry.COLUMN_NAME_TIME)),
+                cursor.getInt(cursor.getColumnIndex(CourseEntry.COLUMN_NAME_CAPACITY)),
+                cursor.getDouble(cursor.getColumnIndex(CourseEntry.COLUMN_NAME_DURATION)),
+                cursor.getDouble(cursor.getColumnIndex(CourseEntry.COLUMN_NAME_PRICE)),
+                cursor.getString(cursor.getColumnIndex(CourseEntry.COLUMN_NAME_TYPE)),
+                cursor.getString(cursor.getColumnIndex(CourseEntry.COLUMN_NAME_DESCRIPTION))
+        );
     }
 
     public List<ClassData> getClassData(long courseId) {
