@@ -78,6 +78,7 @@ public class DBHelper extends SQLiteOpenHelper {
         ContentValues contentValues = new ContentValues();
         contentValues.put(ClassEntry.COLUMN_NAME_TEACHER, data.getTeacher());
         contentValues.put(ClassEntry.COLUMN_NAME_DATE, data.getDate());
+        contentValues.put(ClassEntry.COLUMN_NAME_COMMENTS, data.getComments());
         contentValues.put(ClassEntry.COLUMN_NAME_COURSE_ID, data.getCourseId());
         long result = db.insert(ClassEntry.TABLE_NAME, null, contentValues);
         db.close();
@@ -183,6 +184,7 @@ public class DBHelper extends SQLiteOpenHelper {
                     cursor.getLong(cursor.getColumnIndex(ClassEntry._ID)),
                     cursor.getString(cursor.getColumnIndex(ClassEntry.COLUMN_NAME_TEACHER)),
                     cursor.getString(cursor.getColumnIndex(ClassEntry.COLUMN_NAME_DATE)),
+                    cursor.getString(cursor.getColumnIndexOrThrow(ClassEntry.COLUMN_NAME_COMMENTS)),
                     cursor.getLong(cursor.getColumnIndex(ClassEntry.COLUMN_NAME_COURSE_ID))
             );
             classDataList.add(data);

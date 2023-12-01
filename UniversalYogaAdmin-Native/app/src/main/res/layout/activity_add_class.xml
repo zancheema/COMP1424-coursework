@@ -24,6 +24,13 @@
         android:hint="Enter Date"
         android:inputType="date" />
 
+    <EditText
+        android:id="@+id/etComments"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="Additional Comments"
+        android:inputType="text" />
+
     <Button
         android:id="@+id/btnSave"
         android:layout_width="wrap_content"

@@ -4,15 +4,18 @@ public class ClassData {
     private long id;
     private String teacher;
     private String date;
+    private String comments;
     private long courseId;
 
     public ClassData() {
     }
 
-    public ClassData(long id, String teacher, String date, long courseId) {
+
+    public ClassData(long id, String teacher, String date, String comments, long courseId) {
         this.id = id;
         this.teacher = teacher;
         this.date = date;
+        this.comments = comments;
         this.courseId = courseId;
     }
 
@@ -38,6 +41,14 @@ public class ClassData {
 
     public void setDate(String date) {
         this.date = date;
+    }
+
+    public String getComments() {
+        return comments;
+    }
+
+    public void setComments(String comments) {
+        this.comments = comments;
     }
 
     public long getCourseId() {

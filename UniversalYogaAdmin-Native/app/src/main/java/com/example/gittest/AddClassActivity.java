@@ -31,6 +31,7 @@ public class AddClassActivity extends AppCompatActivity {
     private DBHelper db;
     private EditText etTeacher;
     private EditText etDate;
+    private EditText etComments;
     private Button btnSave;
     private Handler mainHandler = new Handler(Looper.getMainLooper());
 
@@ -53,6 +54,7 @@ public class AddClassActivity extends AppCompatActivity {
 
         etTeacher = findViewById(R.id.etTeacher);
         etDate = findViewById(R.id.etDate);
+        etComments = findViewById(R.id.etComments);
         btnSave = findViewById(R.id.btnSave);
 
         etDate.setOnClickListener(this::selectDate);
@@ -66,8 +68,9 @@ public class AddClassActivity extends AppCompatActivity {
             Toast.makeText(this, "No field must be empty.", Toast.LENGTH_SHORT).show();
             return;
         }
+        String comments = etComments.getText().toString().trim();
         new Thread(() -> {
-            boolean success = db.insertClassData(new ClassData(0L, teacher, date, courseId));
+            boolean success = db.insertClassData(new ClassData(0L, teacher, date, comments, courseId));
             mainHandler.post(() -> {
                 if (success) {
                     Toast.makeText(AddClassActivity.this, "Class created successfully.", Toast.LENGTH_SHORT).show();

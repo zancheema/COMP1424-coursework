@@ -39,17 +39,20 @@ public class ClassListAdapter extends RecyclerView.Adapter<ClassListAdapter.View
     public static class ViewHolder extends RecyclerView.ViewHolder {
         private final TextView tvTeacher;
         private final TextView tvDate;
+        private final TextView tvComments;
 
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
 
             tvTeacher = itemView.findViewById(R.id.tvTeacher);
             tvDate = itemView.findViewById(R.id.tvDate);
+            tvComments = itemView.findViewById(R.id.tvComments);
         }
 
         public void bind(ClassData data) {
             tvTeacher.setText("Teacher: " + data.getTeacher());
             tvDate.setText("Date: " + data.getDate());
+            tvComments.setText("Additional Comments: " + data.getComments());
         }
     }
 }
