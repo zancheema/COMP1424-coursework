@@ -157,7 +157,7 @@ public class CourseListActivity extends AppCompatActivity {
         payload.setDetailList(detailList);
         Log.d(TAG, "upload: " + payload);
 
-        apiInterface.submitClasses(payload)
+        apiInterface.submitClasses(payload, "Submit")
                         .enqueue(new Callback<ClassesPostResponse>() {
                             @Override
                             public void onResponse(Call<ClassesPostResponse> call, Response<ClassesPostResponse> response) {
