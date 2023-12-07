@@ -14,7 +14,9 @@ import { Button, Icon } from '@rneui/base';
 const Stack = createNativeStackNavigator();
 
 export default function App() {
-  const [classes, dispatch] = useReducer(classesReducer, dummyClasses);
+  
+
+  const [classes, dispatch] = useReducer(classesReducer, []);
 
   return (
     <ClassesContext.Provider value={classes}>

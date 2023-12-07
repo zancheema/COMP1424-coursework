@@ -7,20 +7,24 @@ import SelectTimeDropdown from "../components/ClassesScreen/SelectTimeDropdown";
 import CartTab from "../components/ClassesScreen/CartTab";
 import { useCart } from "../util/hooks";
 import { useContext } from "react";
-import { ClassesContext } from "../util/redux";
+import { ClassesContext, DispatchContext } from "../util/redux";
+import { getClassInstances } from "../api/api";
 
 function ClassesScreen({ navigation }) {
     // const [classes, setClasses] = useState(dummyClasses);
     const classes = useContext(ClassesContext).filter(c => !c.booked);
+    const dispatch = useContext(DispatchContext);
+
 
     const [selectedDay, setSelectedDay] = useState(null);
     const [selectedTime, setSelectedTime] = useState(null);
 
     const { cart, addToCart, removeFromCart, clearCart } = useCart();
 
-    function getClasses() {
-        // setClasses(dummyClasses);
-        console.log('classes: ' + JSON.stringify(classes));
+    async function getClasses() {
+        const classInstances = await getClassInstances();
+        console.log('getClasses: ' + JSON.stringify(classInstances));
+        dispatch({ type: 'replace', data: classInstances });
     }
 
     useEffect(() => {

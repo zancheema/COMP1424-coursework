@@ -3,6 +3,7 @@ import { useContext } from "react";
 import { FlatList, Text, View } from "react-native";
 import { DispatchContext } from "../util/redux";
 import { StackActions } from "@react-navigation/native";
+import { submitBookings } from "../api/api";
 
 function CartScreen({ route, navigation }) {
     const cart = route.params.cart;
@@ -10,7 +11,12 @@ function CartScreen({ route, navigation }) {
     const dispatch = useContext(DispatchContext);
 
 
-    function bookAll() {
+    async function bookAll() {
+        const bookings = cart.map(c => ({instanceId: c.instanceId}));
+        const response = await submitBookings(bookings);
+        console.log('bookAll: ' + JSON.stringify(response));
+
+
         for (var c of cart) {
             console.log('c: ' + JSON.stringify(c));
             dispatch({

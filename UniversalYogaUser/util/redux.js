@@ -1,7 +1,11 @@
 import { createContext } from "react";
 
 export const classesReducer = (classes, action) => {
+    console.log('classesReducer: ' + JSON.stringify(action));
     switch (action.type) {
+        case 'replace': {
+            return action.data;
+        }
         case 'book': {
             for (var c of classes) {
                 if (c.instanceId === action.instanceId) {

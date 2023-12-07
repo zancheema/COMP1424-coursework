@@ -8,26 +8,20 @@
 </head>
 <body>
     <script>
-        const BASE_URL = 'https://stuiis.cms.gre.ac.uk/COMP1424CoreWS/comp1424cw';
+        // const BASE_URL = 'https://stuiis.cms.gre.ac.uk/COMP1424CoreWS/comp1424cw';
+        const BASE_URL = 'http://localhost:8080';
         const userId = 'group_29';
         
         async function getClassInstances() {
             const data = new URLSearchParams();
             data.append('userId', userId);
             data.append('b2', 'Submit');
-            const response = await axios.post(`${BASE_URL}/GetInstances`, data,);
+            const response = await axios.post(`${BASE_URL}/GetInstances`, {userId, b2: 'Submit'});
             // axios.post()
             return response.data;
         }
         
         async function submitBookings(bookings) {
-            bookings = {userId: 'group_29', bookingList: [{instanceId: 1}, {instanceId: 3}]};
-            const data = new URLSearchParams();
-        
-            const payload = {userId: userId, bookingList: bookings};
-            data.append('jsonpayload', JSON.stringify(payload));
-        
-            data.append('b3', 'Submit');
         
             const response = await axios.post(`${BASE_URL}/SubmitBookings`, data);
             return response.data;
