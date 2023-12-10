@@ -7,7 +7,6 @@ import retrofit2.http.FormUrlEncoded;
 import retrofit2.http.POST;
 
 public interface APIInterface {
-    @FormUrlEncoded
     @POST("SubmitClasses")
-    Call<ClassesPostResponse> submitClasses(@Field("jsonpayload") ClassesPayload payload, @Field("b1") String b1);
+    Call<ClassesPostResponse> submitClasses(@Body ClassesPayload payload);
 }
